@@ -15,34 +15,34 @@ let e = '5';
 console.log(a, b, c, d);
 
 if (a === c) {
-    console.log('a === x');
+  console.log('a === x');
 }
 if (a === e) {
-    console.log('a === e');
+  console.log('a === e');
 }
 if (a == e) {
-    console.log('a == x');
+  console.log('a == x');
 }
 
 if (a !== e) {
-    console.log('a !== e');
+  console.log('a !== e');
 }
 if (a != e) {
-    console.log('a != e');
+  console.log('a != e');
 }
 
 if (b % d == 0) {
-    console.log('나머지 0');
+  console.log('나머지 0');
 }
 
 if (a === 5 && b === 6) {
-    console.log('hi');
+  console.log('hi');
 }
 
 if (a === 5 && b === 3) {
-    console.log('hihi');
+  console.log('hihi');
 }
 
-if (typeof a === 'number'){
-    console.log(typeof a);
+if (typeof a === 'number') {
+  console.log(typeof a);
 }
