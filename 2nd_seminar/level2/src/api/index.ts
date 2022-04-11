@@ -6,9 +6,9 @@ const user = require('./user');
 const blog = require('./blog');
 const like = require('./like');
 
-router.get('/user', require('./user'));
+router.get('/user', user);
 router.post('/signup', signup);
-router.post('/blog', require('./blog'));
-router.get('/like/:blogId', require('./like'));
+router.post('/blog', blog);
+router.get('/like/:blogId', like);
 
 module.exports = router;
