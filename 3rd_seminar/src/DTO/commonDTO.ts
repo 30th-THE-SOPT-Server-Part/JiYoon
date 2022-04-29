@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
 
-export interface PostBaseResponseDto {
+export interface PostBaseResponseDTO {
   _id: mongoose.Schema.Types.ObjectId;
 }

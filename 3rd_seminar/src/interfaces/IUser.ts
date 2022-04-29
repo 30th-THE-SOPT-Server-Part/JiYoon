@@ -1,4 +1,4 @@
-import { SchoolInfo } from '../school/SchoolInfo';
+import { SchoolInfo } from './ISchool';
 
 export interface UserInfo {
   name: string;

@@ -1,10 +1,9 @@
-import { PostBaseResponseDto } from '../interfaces/common/PostBaseResponseDto';
-import { UserCreateDto } from '../interfaces/user/UserCreateDto';
-import { UserResponseDto } from '../interfaces/user/UserResponseDto';
-import { UserUpdateDto } from '../interfaces/user/UserUpdateDto';
+import { PostBaseResponseDTO } from '../DTO/commonDTO';
+import { UserCreateDTO, UserResponseDTO, UserUpdateDTO } from '../DTO/userDTO';
+
 import User from '../models/User';
 
-const createUser = async (userCreateDto: UserCreateDto): Promise<PostBaseResponseDto> => {
+const createUser = async (userCreateDto: UserCreateDTO): Promise<PostBaseResponseDTO> => {
   try {
     //const user = new User(userCreateDto) 일케해도 됨
     const user = new User({
@@ -26,7 +25,7 @@ const createUser = async (userCreateDto: UserCreateDto): Promise<PostBaseRespons
   }
 };
 
-const updateUser = async (userId: string, userUpdateDto: UserUpdateDto): Promise<void> => {
+const updateUser = async (userId: string, userUpdateDto: UserUpdateDTO): Promise<void> => {
   try {
     //findByIdAndUpdate
     await User.findByIdAndUpdate(userId, userUpdateDto);
@@ -36,7 +35,7 @@ const updateUser = async (userId: string, userUpdateDto: UserUpdateDto): Promise
   }
 };
 
-const findUserById = async (userId: string): Promise<UserResponseDto | null> => {
+const findUserById = async (userId: string): Promise<UserResponseDTO | null> => {
   try {
     //findByIdAndUpdate
     const user = await User.findById(userId);
