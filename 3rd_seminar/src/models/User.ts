@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { UserInfo } from '../interfaces/IUser';
 
-const UserSchema = new mongoose.Schema({
+export const UserSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,

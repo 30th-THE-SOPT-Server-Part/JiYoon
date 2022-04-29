@@ -1,2 +1,3 @@
 import UserController from './UserController';
-export { UserController };
+import BlogController from './BlogController';
+export { UserController, BlogController };

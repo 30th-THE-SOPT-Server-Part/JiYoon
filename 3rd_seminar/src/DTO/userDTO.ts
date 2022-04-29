@@ -1,5 +1,5 @@
-import { SchoolInfoDTO } from './SchoolDTO';
 import mongoose from 'mongoose';
+import { SchoolInfoDTO } from './SchoolDTO';
 
 export interface UserCreateDTO {
   name: string;
