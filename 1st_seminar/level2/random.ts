@@ -1,4 +1,5 @@
 import { Dinner } from './interfaces/IDinner';
+import { Member } from './interfaces/IMember';
 
 // 과제 조건
 // 1. Member, Dinner interface 만들고 타입 지정하기
@@ -34,10 +35,15 @@ const dinner: Dinner = {
   organize(array) {
     this.shuffle(array);
 
-    const ob = Object(array.find(x => x.group == 'ob'));
-    const yb = Object(array.find(x => x.group == 'yb'));
+    // const ob = Object(array.find(x => x.group == 'ob'));
+    // const yb = Object(array.find(x => x.group == 'yb'));
 
-    const dinnerMember: string[] = [ob.name, yb.name];
+    // const dinnerMember: string[] = [ob.name, yb.name];
+    // console.log(`오늘의 저녁 식사 멤버는 ${dinnerMember[0]}, ${dinnerMember[1]}`);
+    const ob = array.find(x => x.group == 'ob');
+    const yb = array.find(x => x.group == 'yb');
+
+    const dinnerMember = [ob?.name, yb?.name]; //옵셔널 체이닝 사용
     console.log(`오늘의 저녁 식사 멤버는 ${dinnerMember[0]}, ${dinnerMember[1]}`);
   },
 };
