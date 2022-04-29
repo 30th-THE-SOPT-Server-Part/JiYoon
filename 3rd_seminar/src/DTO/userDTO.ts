@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
-import { SchoolInfoDTO } from './SchoolDTO';
+import { SchoolInfo } from '../interfaces/ISchool';
 
 export interface UserCreateDTO {
   name: string;
   phone: string;
   email: string;
   age?: number;
-  school?: SchoolInfoDTO;
+  school?: SchoolInfo;
 }
 
 export interface UserResponseDTO extends UserCreateDTO {
@@ -21,5 +21,5 @@ export interface UserUpdateDTO {
   phone?: string;
   email?: string;
   age?: number;
-  school?: SchoolInfoDTO;
+  school?: SchoolInfo;
 }
