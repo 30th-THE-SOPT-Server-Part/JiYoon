@@ -8,6 +8,11 @@ const message = {
   CREATE_USER_SUCCESS: '유저 생성 성공',
   DELETE_USER_SUCCESS: '유저 삭제 성공',
   UPDATE_USER_SUCCESS: '유저 수정 성공',
+
+  READ_BLOG_SUCCESS: '게시글 조회 성공',
+  CREATE_BLOG_SUCCESS: '게시글 생성 성공',
+  DELETE_BLOG_SUCCESS: '게시글 삭제 성공',
+  UPDATE_BLOG_SUCCESS: '게시글 수정 성공',
 };
 
 export default message;
