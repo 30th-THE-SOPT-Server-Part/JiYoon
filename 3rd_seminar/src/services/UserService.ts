@@ -25,10 +25,10 @@ const createUser = async (userCreateDto: UserCreateDTO): Promise<PostBaseRespons
   }
 };
 
-const updateUser = async (userId: string, userUpdateDto: UserUpdateDTO): Promise<void> => {
+const updateUser = async (userId: string, userUpdateDTO: UserUpdateDTO): Promise<void> => {
   try {
     //findByIdAndUpdate
-    await User.findByIdAndUpdate(userId, userUpdateDto);
+    await User.findByIdAndUpdate(userId, userUpdateDTO);
   } catch (error) {
     console.log(error);
     throw error;
@@ -58,6 +58,7 @@ const deleteUser = async (userId: string): Promise<void> => {
     throw error;
   }
 };
+
 export default {
   createUser,
   updateUser,
