@@ -3,22 +3,22 @@ import { MovieInfo } from '../interfaces/IMovie';
 
 const MovieSchema = new mongoose.Schema({
   title: {
-      type: String,
-      required: true,
+    type: String,
+    required: true,
   },
   director: {
-      type: String,
-      required: true
+    type: String,
+    required: true,
   },
   startDate: {
-      type: Date
+    type: Date,
   },
   thumbnail: {
-      type: String
+    type: String,
   },
   story: {
-      type: String
-  }
+    type: String,
+  },
 });
 
 export default mongoose.model<MovieInfo & mongoose.Document>('Movie', MovieSchema);

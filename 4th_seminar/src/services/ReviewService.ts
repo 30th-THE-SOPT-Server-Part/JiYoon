@@ -6,10 +6,10 @@ const createReview = async (movieId: string, reviewCreateDTO: ReviewCreateDTO): 
   try {
     //const user = new User(userCreateDto) 일케해도 됨
     const review = new Review({
-        writer: reviewCreateDTO.writer,
-        title: reviewCreateDTO.title,
-        content: reviewCreateDTO.content,
-      movie: movieId
+      writer: reviewCreateDTO.writer,
+      title: reviewCreateDTO.title,
+      content: reviewCreateDTO.content,
+      movie: movieId,
     });
     await review.save();
 
@@ -23,28 +23,32 @@ const createReview = async (movieId: string, reviewCreateDTO: ReviewCreateDTO): 
   }
 };
 
-const getReviews= async (movieId: string): Promise<ReviewResponseDTO[]> => {
-    try {
-      const reviews = await Review.find({
-          movie: movieId
-      }).populate('writer', 'name').populate('movie');//(String path, select) 리뷰 콘솔 찍어보셈ㅋㅋ
-      const data = await Promise.all(reviews.map(async (review: any) => {
+const getReviews = async (movieId: string): Promise<ReviewResponseDTO[]> => {
+  try {
+    const reviews = await Review.find({
+      movie: movieId,
+    })
+      .populate('writer', 'name')
+      .populate('movie'); //(String path, select) 리뷰 콘솔 찍어보셈ㅋㅋ
+    const data = await Promise.all(
+      reviews.map(async (review: any) => {
         const result = {
-            writer: review.writer.name,
-            movie: review.movie,
-            title: review.title,
-            content: review.content
-        }
+          writer: review.writer.name,
+          movie: review.movie,
+          title: review.title,
+          content: review.content,
+        };
         return result;
-      }))
-      return data;
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
-  };
+      }),
+    );
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
 
-export default{
-    createReview,
-    getReviews
-}
+export default {
+  createReview,
+  getReviews,
+};
