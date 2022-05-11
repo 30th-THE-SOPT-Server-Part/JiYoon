@@ -2,31 +2,31 @@ import express, { Request, Response } from 'express';
 import statusCode from '../modules/statusCode';
 import message from '../modules/responseMessage';
 import util from '../modules/util';
-
-import UserService from '../services/UserService';
-import { UserUpdateDTO, UserCreateDTO } from '../DTO/userDTO';
+import { MovieCreateDTO, MovieUpdateDTO } from '../DTO/movieDTO';
 import { validationResult } from 'express-validator';
+import MovieService from '../services/MovieService';
 
-const createUser = async (req: Request, res: Response) => {
+const postMovie = async (req: Request, res: Response) => {
   const error = validationResult(req);
   if (!error.isEmpty()) {
     return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
   }
-  const userCreateDTO: UserCreateDTO = req.body;
+  const movieCreateDTO: MovieCreateDTO = req.body;
+
   try {
-    const data = await UserService.createUser(userCreateDTO);
-    res.status(statusCode.CREATED).send(util.success(statusCode.CREATED, message.CREATE_USER_SUCCESS, data));
+    const data = await MovieService.postMovie(movieCreateDTO);
+    res.status(statusCode.CREATED).send(util.success(statusCode.CREATED, message.CREATE_MOVIE_SUCCESS, data));
   } catch (error) {
     console.log(error);
     res.status(statusCode.INTERNAL_SERVER_ERROR).send(util.fail(statusCode.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
   }
 };
 
-const updateUser = async (req: Request, res: Response) => {
-  const userUpdateDTO: UserUpdateDTO = req.body;
-  const { userId } = req.params;
+const updateMovie = async (req: Request, res: Response) => {
+  const movieUpdateDTO: MovieUpdateDTO = req.body;
+  const { movieId } = req.params;
   try {
-    await UserService.updateUser(userId, userUpdateDTO);
+    await MovieService.updateMovie(movieId, movieUpdateDTO);
     res.status(statusCode.NO_CONTENT).send();
   } catch (error) {
     console.log(error);
@@ -34,34 +34,27 @@ const updateUser = async (req: Request, res: Response) => {
   }
 };
 
-const findUserById = async (req: Request, res: Response) => {
-  const { userId } = req.params;
+const findMovieById = async (req: Request, res: Response) => {
+  const { movieId } = req.params;
   try {
-    const data = await UserService.findUserById(userId);
+    const data = await MovieService.findMovieById(movieId);
     if (!data) {
       return res.status(statusCode.NOT_FOUND).send(util.fail(statusCode.NOT_FOUND, message.NOT_FOUND));
     }
-    res.status(statusCode.OK).send(util.success(statusCode.OK, message.READ_USER_SUCCESS, data));
+    res.status(statusCode.OK).send(util.success(statusCode.OK, message.READ_MOVIE_SUCCESS, data));
   } catch (error) {
     console.log(error);
     res.status(statusCode.INTERNAL_SERVER_ERROR).send(util.fail(statusCode.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
   }
 };
-
-const deleteUser = async (req: Request, res: Response) => {
-  const { userId } = req.params;
+const deleteMovie = async (req: Request, res: Response) => {
+  const { movieId } = req.params;
   try {
-    await UserService.deleteUser(userId);
+    await MovieService.deleteMovie(movieId);
     res.status(statusCode.NO_CONTENT).send();
   } catch (error) {
     console.log(error);
     res.status(statusCode.INTERNAL_SERVER_ERROR).send(util.fail(statusCode.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
   }
 };
-
-export default {
-  createUser,
-  updateUser,
-  findUserById,
-  deleteUser,
-};
+export default { postMovie, updateMovie, findMovieById, deleteMovie };

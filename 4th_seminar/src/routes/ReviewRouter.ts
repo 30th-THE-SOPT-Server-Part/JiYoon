@@ -11,6 +11,7 @@ router.post(
     body('title').notEmpty(),
     body('content').notEmpty(),
     body('writer').notEmpty(),
+    body('movieId').notEmpty(),
   ],
   ReviewController.createReview,
 );
