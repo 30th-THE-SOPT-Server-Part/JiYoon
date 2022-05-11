@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 export interface MovieCreateDTO {
   title: String;
-  director: String;
+  director: mongoose.Types.ObjectId;
   startDate: Date;
   thumbnail: String;
   story: String;

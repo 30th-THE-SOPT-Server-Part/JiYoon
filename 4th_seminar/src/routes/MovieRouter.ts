@@ -11,7 +11,7 @@ router.post(
     body('title').notEmpty(),
     body('director').notEmpty(),
     body('startDate').notEmpty(),
-    body('thubnail').notEmpty(),
+    body('thumbnail').notEmpty(),
     body('story').notEmpty(),
   ],
   MovieController.postMovie,
