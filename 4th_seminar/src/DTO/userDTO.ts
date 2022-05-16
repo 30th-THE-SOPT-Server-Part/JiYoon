@@ -5,8 +5,14 @@ export interface UserCreateDTO {
   name: string;
   phone: string;
   email: string;
+  password: string;
   age?: number;
   school?: SchoolInfo;
+}
+
+export interface UserSignInDTO {
+  email: string;
+  password: string;
 }
 
 export interface UserResponseDTO extends UserCreateDTO {

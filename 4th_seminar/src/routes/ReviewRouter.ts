@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import ReviewController from '../controllers/ReviewController';
 import { body } from 'express-validator';
+import auth from '../middlewares/auth';
 
 const router: Router = Router();
 
@@ -16,5 +17,5 @@ router.post(
   ReviewController.createReview,
 );
 
-router.get('/movies/:movieId', ReviewController.getReviews);
+router.get('/movies/:movieId', auth, ReviewController.getReviews);
 export default router;
