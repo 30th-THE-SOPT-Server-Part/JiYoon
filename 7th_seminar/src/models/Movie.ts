@@ -7,9 +7,8 @@ const MovieSchema = new mongoose.Schema({
     required: true,
   },
   director: {
-    type: mongoose.Types.ObjectId,
+    type: String,
     required: true,
-    ref: 'user',
   },
   startDate: {
     type: Date,

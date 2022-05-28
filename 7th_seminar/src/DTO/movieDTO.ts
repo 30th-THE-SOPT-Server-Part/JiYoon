@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 export interface MovieCreateDTO {
   title: String;
-  director: mongoose.Types.ObjectId;
+  director: string;
   startDate: Date;
   thumbnail: String;
   story: String;
@@ -17,4 +17,9 @@ export interface MovieUpdateDTO {
 
 export interface MovieResponseDTO extends MovieCreateDTO {
   _id: mongoose.Schema.Types.ObjectId;
+}
+
+export interface MoviesResponseDTO {
+  movies: MovieResponseDTO[];
+  lastPage: number;
 }
