@@ -1,5 +1,6 @@
 import { PostBaseResponseDTO } from '../DTO/commonDTO';
-import { ReviewCreateDTO, ReviewResponseDTO } from '../DTO/reviewDTO';
+import { ReviewCreateDTO, ReviewOptionType, ReviewResponseDTO, ReviewsResponseDTO } from '../DTO/reviewDTO';
+import { ReviewInfo } from '../interfaces/IReview';
 import Review from '../models/Review';
 
 const createReview = async (movieId: string, reviewCreateDTO: ReviewCreateDTO): Promise<PostBaseResponseDTO> => {
@@ -23,24 +24,50 @@ const createReview = async (movieId: string, reviewCreateDTO: ReviewCreateDTO): 
   }
 };
 
-const getReviews = async (movieId: string): Promise<ReviewResponseDTO[]> => {
+const getReviews = async (movieId: string, search: string, option: ReviewOptionType, page: number): Promise<ReviewsResponseDTO> => {
+  const regex = (pattern: string) => new RegExp(`.*${pattern}.*`);
+  let reviews: ReviewInfo[] = [];
+  const perPage: number = 2;
   try {
-    const reviews = await Review.find({
-      movie: movieId,
-    })
-      .populate('writer', 'name')
-      .populate('movie'); //(String path, select) 리뷰 콘솔 찍어보셈ㅋㅋ
-    const data = await Promise.all(
-      reviews.map(async (review: any) => {
-        const result = {
-          writer: review.writer.name,
-          movie: review.movie,
-          title: review.title,
-          content: review.content,
-        };
-        return result;
-      }),
-    );
+    const reviewRegex = regex(search);
+
+    if (option === 'title') {
+      reviews = await Review.find({ title: { $regex: reviewRegex } })
+        .where('movie')
+        .equals(movieId)
+        .sort({ createAt: -1 })
+        .skip(perPage * (page - 1))
+        .limit(perPage)
+        .populate('writer', 'name')
+        .populate('movie');
+    } else if (option === 'content') {
+      reviews = await Review.find({ content: { $regex: reviewRegex } })
+        .where('movie')
+        .equals(movieId)
+        .sort({ createAt: -1 })
+        .skip(perPage * (page - 1))
+        .limit(perPage)
+        .populate('writer', 'name')
+        .populate('movie');
+    }
+
+    // const data = await Promise.all(
+    //   reviews.map(async (review: any) => {
+    //     const result = {
+    //       writer: review.writer.name,
+    //       movie: review.movie,
+    //       title: review.title,
+    //       content: review.content,
+    //     };
+    //     return result;
+    //   }),
+    // );
+    const total: number = await Review.countDocuments({});
+    const lastPage: number = Math.ceil(total / perPage);
+    const data = {
+      reviews,
+      lastPage,
+    };
     return data;
   } catch (error) {
     console.log(error);
