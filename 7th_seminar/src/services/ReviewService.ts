@@ -62,7 +62,7 @@ const getReviews = async (movieId: string, search: string, option: ReviewOptionT
     //     return result;
     //   }),
     // );
-    const total: number = await Review.countDocuments({});
+    const total: number = await Review.countDocuments({ movie: movieId });
     const lastPage: number = Math.ceil(total / perPage);
     const data = {
       reviews,
