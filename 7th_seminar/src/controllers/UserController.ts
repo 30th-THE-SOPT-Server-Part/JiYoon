@@ -8,10 +8,6 @@ import { UserUpdateDTO, UserCreateDTO } from '../DTO/userDTO';
 import { validationResult } from 'express-validator';
 
 const createUser = async (req: Request, res: Response) => {
-  const error = validationResult(req);
-  if (!error.isEmpty()) {
-    return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
-  }
   const userCreateDTO: UserCreateDTO = req.body;
   try {
     const data = await UserService.createUser(userCreateDTO);

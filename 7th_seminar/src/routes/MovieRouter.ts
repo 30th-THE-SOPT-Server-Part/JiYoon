@@ -3,6 +3,7 @@ import { body } from 'express-validator';
 import MovieController from '../controllers/MovieController';
 import auth from '../middlewares/auth';
 const router: Router = Router();
+const { validatorErrorChecker } = require('../middlewares/validator');
 
 router.post(
   '/',
@@ -14,6 +15,7 @@ router.post(
     body('thumbnail').notEmpty(),
     body('story').notEmpty(),
   ],
+  validatorErrorChecker,
   MovieController.postMovie,
 );
 

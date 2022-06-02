@@ -3,7 +3,7 @@ import ReviewController from '../controllers/ReviewController';
 import { body } from 'express-validator';
 import auth from '../middlewares/auth';
 const router: Router = Router();
-
+const { validatorErrorChecker } = require('../middlewares/validator');
 router.post(
   '/movies/:movieId',
   [
@@ -13,6 +13,7 @@ router.post(
     body('writer').notEmpty(),
     body('movieId').notEmpty(),
   ],
+  validatorErrorChecker,
   ReviewController.createReview,
 );
 
