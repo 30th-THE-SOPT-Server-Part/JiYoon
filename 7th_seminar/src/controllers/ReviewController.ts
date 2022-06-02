@@ -4,7 +4,6 @@ import message from '../modules/responseMessage';
 import util from '../modules/util';
 import { ReviewCreateDTO, ReviewOptionType } from '../DTO/reviewDTO';
 import ReviewService from '../services/ReviewService';
-import { validationResult } from 'express-validator';
 
 const createReview = async (req: Request, res: Response) => {
   const reviewCreateDTO: ReviewCreateDTO = req.body;

@@ -4,7 +4,6 @@ import message from '../modules/responseMessage';
 import util from '../modules/util';
 import { BlogPostDTO, BlogUpdateDTO } from '../DTO/blogDTO';
 import BlogService from '../services/BlogService';
-import { validationResult } from 'express-validator';
 
 const postBlog = async (req: Request, res: Response) => {
   const blogPostDTO: BlogPostDTO = req.body;

@@ -3,7 +3,6 @@ import statusCode from '../modules/statusCode';
 import message from '../modules/responseMessage';
 import util from '../modules/util';
 import { MovieCreateDTO, MovieUpdateDTO } from '../DTO/movieDTO';
-import { validationResult } from 'express-validator';
 import MovieService from '../services/MovieService';
 import { MovieOptionType } from '../interfaces/IMovie';
 
