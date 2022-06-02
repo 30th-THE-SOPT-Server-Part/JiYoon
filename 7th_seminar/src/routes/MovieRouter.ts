@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { body } from 'express-validator';
 import MovieController from '../controllers/MovieController';
-
+import auth from '../middlewares/auth';
 const router: Router = Router();
 
 router.post(
@@ -18,7 +18,7 @@ router.post(
 );
 
 router.get('/:movieId', MovieController.findMovieById);
-router.put('/:movieId', MovieController.updateMovie);
+router.put('/:movieId', auth, MovieController.updateMovie);
 router.delete('/:movieId', MovieController.deleteMovie);
 router.get('/', MovieController.getMoviesBySearch);
 export default router;
