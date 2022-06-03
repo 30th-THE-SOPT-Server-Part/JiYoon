@@ -88,10 +88,32 @@ const getMoviesBySearch = async (search: string, option: MovieOptionType, page: 
     throw error;
   }
 };
+
+const getMoviesByPage = async (page: number): Promise<MoviesResponseDTO> => {
+  const perPage: number = 2;
+  try {
+    const movies = await Movie.find()
+      .sort({ createAt: -1 })
+      .skip(perPage * (page - 1))
+      .limit(perPage);
+
+    const total: number = await Movie.countDocuments({});
+    const lastPage: number = Math.ceil(total / perPage);
+    const data = {
+      movies,
+      lastPage,
+    };
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
 export default {
   postMovie,
   updateMovie,
   findMovieById,
   deleteMovie,
   getMoviesBySearch,
+  getMoviesByPage,
 };

@@ -20,15 +20,29 @@ const createReview = async (req: Request, res: Response) => {
 const getReviews = async (req: Request, res: Response) => {
   const { movieId } = req.params;
   const { search, option } = req.query;
-  const isOptionType = (option: string): option is ReviewOptionType => {
-    return ['title', 'content'].indexOf(option) !== -1;
-  };
-  if (!isOptionType(option as string)) {
+  const page: number = Number(req.query.page || 1);
+  let queryFlag: boolean;
+  if (search && option) {
+    queryFlag = true;
+    const isOptionType = (option: string): option is ReviewOptionType => {
+      return ['title', 'content'].indexOf(option) !== -1;
+    };
+    if (!isOptionType(option as string)) {
+      return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
+    }
+  } else if (!search && !option) {
+    queryFlag = false;
+  } else {
     return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
   }
-  const page: number = Number(req.query.page || 1);
+
   try {
-    const data = await ReviewService.getReviews(movieId, search as string, option as ReviewOptionType, page);
+    let data;
+    if (queryFlag) {
+      data = await ReviewService.getReviewsBySearch(movieId, search as string, option as ReviewOptionType, page);
+    } else {
+      data = await ReviewService.getReviewsByPage(movieId, page);
+    }
     res.status(statusCode.OK).send(util.success(statusCode.OK, message.READ_REVIEW_SUCCESS, data));
   } catch (error) {
     console.log(error);

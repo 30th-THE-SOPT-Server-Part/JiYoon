@@ -24,7 +24,7 @@ const createReview = async (movieId: string, reviewCreateDTO: ReviewCreateDTO): 
   }
 };
 
-const getReviews = async (movieId: string, search: string, option: ReviewOptionType, page: number): Promise<ReviewsResponseDTO> => {
+const getReviewsBySearch = async (movieId: string, search: string, option: ReviewOptionType, page: number): Promise<ReviewsResponseDTO> => {
   const regex = (pattern: string) => new RegExp(`.*${pattern}.*`);
   let reviews: ReviewInfo[] = [];
   const perPage: number = 2;
@@ -74,8 +74,30 @@ const getReviews = async (movieId: string, search: string, option: ReviewOptionT
     throw error;
   }
 };
+const getReviewsByPage = async (movieId: string, page: number): Promise<ReviewsResponseDTO> => {
+  const perPage: number = 2;
+  try {
+    const reviews = await Review.find({ movie: movieId })
+      .sort({ createAt: -1 })
+      .skip(perPage * (page - 1))
+      .limit(perPage)
+      .populate('writer', 'name')
+      .populate('movie');
 
+    const total: number = await Review.countDocuments({ movie: movieId });
+    const lastPage: number = Math.ceil(total / perPage);
+    const data = {
+      reviews,
+      lastPage,
+    };
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
 export default {
   createReview,
-  getReviews,
+  getReviewsBySearch,
+  getReviewsByPage,
 };

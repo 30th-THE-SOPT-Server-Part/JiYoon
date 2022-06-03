@@ -3,7 +3,6 @@ import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import util from '../modules/util';
 const { validationResult } = require('express-validator');
-const sc = require('../modules/statusCode');
 
 exports.validatorErrorChecker = (req: Request, res: Response, next: NextFunction) => {
   const errors = validationResult(req);

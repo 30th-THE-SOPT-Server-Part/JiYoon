@@ -56,15 +56,29 @@ const deleteMovie = async (req: Request, res: Response) => {
 
 const getMoviesBySearch = async (req: Request, res: Response) => {
   const { search, option } = req.query;
-  const isOptionType = (option: string): option is MovieOptionType => {
-    return ['title', 'director', 'title_director'].indexOf(option) !== -1;
-  };
-  if (!isOptionType(option as string)) {
+  const page: number = Number(req.query.page || 1);
+  let queryFlag: boolean;
+  if (search && option) {
+    queryFlag = true;
+    const isOptionType = (option: string): option is MovieOptionType => {
+      return ['title', 'director', 'title_director'].indexOf(option) !== -1;
+    };
+    if (!isOptionType(option as string)) {
+      return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
+    }
+  } else if (!search && !option) {
+    queryFlag = false;
+  } else {
     return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
   }
-  const page: number = Number(req.query.page || 1);
+
   try {
-    const data = await MovieService.getMoviesBySearch(search as string, option as MovieOptionType, page);
+    let data;
+    if (queryFlag) {
+      data = await MovieService.getMoviesBySearch(search as string, option as MovieOptionType, page);
+    } else {
+      data = await MovieService.getMoviesByPage(page);
+    }
 
     res.status(statusCode.OK).send(util.success(statusCode.OK, message.SUCCESS, data));
   } catch (error) {
