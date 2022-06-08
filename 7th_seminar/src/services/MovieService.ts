@@ -52,7 +52,7 @@ const deleteMovie = async (movieId: string): Promise<void> => {
   }
 };
 
-const getMoviesBySearch = async (search: string, option: MovieOptionType, page: number): Promise<MoviesResponseDTO> => {
+const getMoviesBySearch = async (page: number, search: string, option: MovieOptionType): Promise<MoviesResponseDTO> => {
   const regex = (pattern: string) => new RegExp(`.*${pattern}.*`);
   let movies: MovieResponseDTO[] = [];
   const perPage: number = 2;
