@@ -4,13 +4,8 @@ import message from '../modules/responseMessage';
 import util from '../modules/util';
 import { ReviewCreateDTO, ReviewOptionType } from '../DTO/reviewDTO';
 import ReviewService from '../services/ReviewService';
-import { validationResult } from 'express-validator';
 
 const createReview = async (req: Request, res: Response) => {
-  const error = validationResult(req);
-  if (!error.isEmpty()) {
-    return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
-  }
   const reviewCreateDTO: ReviewCreateDTO = req.body;
   const { movieId } = req.params;
   try {
@@ -25,15 +20,23 @@ const createReview = async (req: Request, res: Response) => {
 const getReviews = async (req: Request, res: Response) => {
   const { movieId } = req.params;
   const { search, option } = req.query;
-  const isOptionType = (option: string): option is ReviewOptionType => {
-    return ['title', 'content'].indexOf(option) !== -1;
-  };
-  if (!isOptionType(option as string)) {
-    return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
-  }
   const page: number = Number(req.query.page || 1);
+
   try {
-    const data = await ReviewService.getReviews(movieId, search as string, option as ReviewOptionType, page);
+    let data;
+    if (search && option) {
+      const isOptionType = (option: string): option is ReviewOptionType => {
+        return ['title', 'content'].indexOf(option) !== -1;
+      };
+      if (!isOptionType(option as string)) {
+        return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
+      }
+      data = await ReviewService.getReviewsBySearch(movieId, search as string, option as ReviewOptionType, page);
+    } else if (!search && !option) {
+      data = await ReviewService.getReviewsByPage(movieId, page);
+    } else {
+      return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
+    }
     res.status(statusCode.OK).send(util.success(statusCode.OK, message.READ_REVIEW_SUCCESS, data));
   } catch (error) {
     console.log(error);

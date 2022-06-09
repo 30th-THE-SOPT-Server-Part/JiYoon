@@ -53,7 +53,7 @@ const signInUser = async (req: Request, res: Response) => {
       accessToken,
     };
 
-    res.status(statusCode.OK).send(util.success(statusCode.OK, message.SIGNIN_USER_SUCCESS, data));
+    res.status(statusCode.OK).send(util.success(statusCode.OK, message.SUCCESS, data));
   } catch (e) {
     console.log(error);
     // 서버 내부에서 오류 발생
